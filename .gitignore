@@ -1,0 +1,55 @@
+# Program
+*.db
+*.xlsx
+*.csv
+
+# Virtual environment
+venv/
+env/
+.venv/
+.env/
+
+# Dependencies
+/venv
+/env
+/lib
+/libs
+/lib64
+
+# Compiled files
+__pycache__/
+*.py[cod]
+*.mo
+*.pyo
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Compiled Python files
+*.pyc
+*.pyo
+
+# Environment files
+.env
+.env.*
+
+# IDE specific
+.idea/
+.vscode/
+.vs/
+
+# Editor specific
+*~
+.*.swp
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Temp files
+*.tmp
+*.swp
+
+

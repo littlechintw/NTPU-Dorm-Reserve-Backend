@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>
+		JavaScript
+	| Detecting the Operating System of User.
+	</title>
+</head>
+
+<script>
+function showOS() {
+    var android = false
+    var ios = false
+
+    if (navigator.userAgent.indexOf("Android") != -1) android = true
+    if (navigator.userAgent.indexOf("iPhone") != -1) ios = true
+
+    if (android) window.location.replace("https://play.google.com/store/apps/details?id=tw.gov.cdc.exposurenotifications");
+    else if (ios) window.location.replace("https://apps.apple.com/us/app/taiwan-social-distancing/id1554431836");
+    else window.location.replace("https://www.cdc.gov.tw/Category/Page/R8bAd_yiVi22CIr73qM2yw?gclid=Cj0KCQjwr-SSBhC9ARIsANhzu15DQDf-Lxr3xSkBUFkJuvsVhTHuiuK_2XJepx2cK9h3QJ0EaqPmXngaAlwMEALw_wcB");
+
+    if (android) os_detect_mes.innerHTML = "Jump to Google Play";
+    else if (ios) os_detect_mes.innerHTML = "Jump to App Store";
+    else os_detect_mes.innerHTML = "Jump to CDC page!";
+}
+</script>
+
+<body style="text-align:center;" id="body" onload="showOS()">
+	<h3 style="color:green;">
+			Will going to > Taiwan Social Distancing
+    </h3>
+    <h4 id="os_detect_mes"></h4>
+</body>
+
+</html>
