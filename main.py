@@ -133,7 +133,7 @@ def reserveTime():
         RESERVE_END = get_config('RESERVE_END')
         return ok_200({
             'reserve': reserveNow,
-            'time': RESERVE_START[:-3] + ' ~ ' + RESERVE_END[:-3],
+            'time': RESERVE_START[:-3],
         }, '', request.remote_addr, request.url, events_id), 200
     except Exception as e:
         print(e)
