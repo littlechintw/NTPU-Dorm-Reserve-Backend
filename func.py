@@ -1094,6 +1094,6 @@ def error_500(mes, session, remote_addr, url, events_id):
     return json_data
 
 def read_config():
-    with open('../config.json', 'r', encoding='utf-8') as f:
+    with open('config.json', 'r', encoding='utf-8') as f:
         config = json.load(f)
     return config
