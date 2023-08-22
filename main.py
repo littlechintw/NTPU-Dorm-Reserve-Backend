@@ -15,7 +15,7 @@ CORS(app)
 api = Blueprint('api', __name__)
 
 # To view this app is already run
-@app.route('/monitor', methods=['GET'])
+@api.route('/monitor', methods=['GET'])
 def check_active():
     try:
         events_id = create_id(5)
@@ -27,7 +27,7 @@ def check_active():
         error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
 # To login with the student system
-@app.route('/login', methods=['POST'])
+@api.route('/login', methods=['POST'])
 def login():
     try:
         events_id = create_id(5)
@@ -124,7 +124,7 @@ def login():
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
 # To test whether this token is valid
-@app.route('/verify', methods=['POST'])
+@api.route('/verify', methods=['POST'])
 def verify():
     try:
         events_id = create_id(5)
@@ -144,7 +144,7 @@ def verify():
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
 # To get events list
-@app.route('/get_events', methods=['POST'])
+@api.route('/get_events', methods=['POST'])
 def get_events():
     try:
         events_id = create_id(5)
@@ -191,7 +191,7 @@ def get_events():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/reserve_event', methods=['POST'])
+@api.route('/reserve_event', methods=['POST'])
 def reserve_event():
     try:
         events_id = create_id(5)
@@ -266,7 +266,7 @@ def reserve_event():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/cancel_reserve', methods=['POST'])
+@api.route('/cancel_reserve', methods=['POST'])
 def cancel_reserve():
     try:
         events_id = create_id(5)
@@ -304,7 +304,7 @@ def cancel_reserve():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/healthy_form_checker', methods=['POST'])
+@api.route('/healthy_form_checker', methods=['POST'])
 def healthy_form_checker():
     try:
         events_id = create_id(5)
@@ -330,7 +330,7 @@ def healthy_form_checker():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/login', methods=['POST'])
+@api.route('/admin/login', methods=['POST'])
 def admin_login():
     try:
         events_id = create_id(5)
@@ -387,7 +387,7 @@ def admin_login():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/verify', methods=['POST'])
+@api.route('/admin/verify', methods=['POST'])
 def admin_verify():
     try:
         events_id = create_id(5)
@@ -416,7 +416,7 @@ def admin_verify():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/get_user_data', methods=['POST'])
+@api.route('/admin/get_user_data', methods=['POST'])
 def admin_get_user_data():
     # try:
 
@@ -477,7 +477,7 @@ def admin_get_user_data():
     #     print(e)
     #     return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/edit_user_data', methods=['POST'])
+@api.route('/admin/edit_user_data', methods=['POST'])
 def admin_edit_user_data():
     try:
         events_id = create_id(5)
@@ -546,7 +546,7 @@ def admin_edit_user_data():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/visitor_checkout', methods=['POST'])
+@api.route('/admin/visitor_checkout', methods=['POST'])
 def admin_visitor_checkout_url():
     try:
         events_id = create_id(5)
@@ -594,7 +594,7 @@ def admin_visitor_checkout_url():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/edit_user', methods=['POST'])
+@api.route('/admin/edit_user', methods=['POST'])
 def admin_edit_user_api():
     try:
         events_id = create_id(5)
@@ -658,7 +658,7 @@ def admin_edit_user_api():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/reserve_status', methods=['POST'])
+@api.route('/admin/reserve_status', methods=['POST'])
 def admin_reserve_status():
     try:
         events_id = create_id(5)
@@ -685,7 +685,7 @@ def admin_reserve_status():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/reserve_delete', methods=['POST'])
+@api.route('/admin/reserve_delete', methods=['POST'])
 def admin_reserve_delete():
     try:
         events_id = create_id(5)
@@ -731,7 +731,7 @@ def admin_reserve_delete():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/read_events', methods=['GET'])
+@api.route('/admin/read_events', methods=['GET'])
 def admin_read_events():
     try:
         events_id = create_id(5)
@@ -768,7 +768,7 @@ def admin_read_events():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/write_events', methods=['POST'])
+@api.route('/admin/write_events', methods=['POST'])
 def admin_write_events():
     try:
         events_id = create_id(5)
@@ -812,7 +812,7 @@ def admin_write_events():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/read_config', methods=['GET'])
+@api.route('/admin/read_config', methods=['GET'])
 def admin_read_config():
     try:
         events_id = create_id(5)
@@ -849,7 +849,7 @@ def admin_read_config():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/write_config', methods=['POST'])
+@api.route('/admin/write_config', methods=['POST'])
 def admin_write_config():
     try:
         events_id = create_id(5)
@@ -895,7 +895,7 @@ def admin_write_config():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/read_admin_member', methods=['GET'])
+@api.route('/admin/read_admin_member', methods=['GET'])
 def admin_read_admin_member():
     try:
         events_id = create_id(5)
@@ -932,7 +932,7 @@ def admin_read_admin_member():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/edit_admin_member', methods=['POST'])
+@api.route('/admin/edit_admin_member', methods=['POST'])
 def admin_edit_admin_member():
     try:
         events_id = create_id(5)
@@ -979,7 +979,7 @@ def admin_edit_admin_member():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/upload_all_member', methods=['POST'])
+@api.route('/admin/upload_all_member', methods=['POST'])
 def admin_upload_all_member():
     # try:
         events_id = create_id(5)
@@ -1022,7 +1022,7 @@ def admin_upload_all_member():
     #     return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
 
-@app.route('/api/reserve_status', methods=['GET'])
+@api.route('/api/reserve_status', methods=['GET'])
 def api_reserve_status():
     return {
         'sun': get_events_list_by_dorm('sun'),
@@ -1031,11 +1031,11 @@ def api_reserve_status():
         'morn': get_events_list_by_dorm('morn'),
     }
 
-@app.route('/api/checkin_status', methods=['GET'])
+@api.route('/api/checkin_status', methods=['GET'])
 def api_checkin_status():
     return get_checkin_status()
 
-@app.route('/api/reserve_and_checkin_status', methods=['GET'])
+@api.route('/api/reserve_and_checkin_status', methods=['GET'])
 def api_reserve_and_checkin_status():
     try:
         event_id = create_id(5)
@@ -1114,11 +1114,11 @@ def api_reserve_and_checkin_status():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, event_id), 500
 
-@app.route('/api/parking_couple', methods=['GET'])
+@api.route('/api/parking_couple', methods=['GET'])
 def api_parking_couple():
     return get_parking_couple()
 
-@app.route('/api/visitor_inside', methods=['GET'])
+@api.route('/api/visitor_inside', methods=['GET'])
 def api_visitor_inside():
     try:
         events_id = create_id(5)
@@ -1145,7 +1145,7 @@ def api_visitor_inside():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
-@app.route('/admin/access/csv/<random>/<sessionCode>', methods=['GET'])
+@api.route('/admin/access/csv/<random>/<sessionCode>', methods=['GET'])
 def admin_access_csv(random, sessionCode):
     try:
         events_id = create_id(5)
