@@ -621,7 +621,7 @@ def admin_edit_user_api():
                 return error_403('No given data', '', request.remote_addr, request.url, events_id), 403
             if 'action' not in data:
                 return error_403('No given data', '', request.remote_addr, request.url, events_id), 403
-            if data['action'] != 'a' and data['action'] != 'e' and data['action'] != 'd':
+            if data['action'] != 'a' and data['action'] != 'e' and data['action'] != 'd' and data['action'] != 'dc':
                 return error_403('No given data', '', request.remote_addr, request.url, events_id), 403
 
         # Take header and verify it
