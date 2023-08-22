@@ -54,7 +54,7 @@ def login():
                 return error_403('學號輸入錯誤', '', request.remote_addr, request.url, events_id), 200
 
         if not check_reserve_time():
-            return error_403('預約尚未開始 / Not a valid time ({})'.format(get_nowtime_taipei_time()), '', request.remote_addr, request.url, events_id), 200
+            return error_403('非預約時間 / Not a valid time ({})'.format(get_nowtime_taipei_time()), '', request.remote_addr, request.url, events_id), 200
 
         # Check this account wheater exist in database
         user_dorm = get_user_dorm(data['stu_id'])
@@ -648,6 +648,8 @@ def admin_edit_user_api():
             actionFlag = admin_edit_user(data['id'], data['name'], data['dorm'], data['room'])
         elif data['action'] == 'd':
             actionFlag = admin_delete_user(data['id'])
+        elif data['action'] == 'dc':
+            actionFlag = admin_delete_user_checkin(data['id'])
 
         if actionFlag == False:
             return error_403('Action error', '', request.remote_addr, request.url, events_id), 200

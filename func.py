@@ -931,6 +931,27 @@ def admin_delete_user(id):
     conn.close()
     return True
 
+def admin_delete_user_checkin(id):
+    print('Delete work in progress, ' + id)
+    # Check this user in member table
+    conn = sqlite3.connect('main.db')
+    c = conn.cursor()
+    c.execute('''
+                SELECT * FROM checkIn WHERE user = ?
+            ''', (id,))
+    record = c.fetchone()
+    if not record:
+        print("No such checkIn")
+    else:
+        # Delete a record from member table
+        c.execute('''
+                    DELETE FROM checkIn WHERE user = ?
+                ''', (id,))
+        print('Delete checkIn record')
+    conn.commit()
+    conn.close()
+    return True
+
 def get_parking_couple():
     conn = sqlite3.connect('main.db')
     c = conn.cursor()
