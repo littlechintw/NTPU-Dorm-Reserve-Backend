@@ -50,7 +50,7 @@ def login():
             if not check_is_num(data['stu_id']):
                 return error_403('學號輸入錯誤', '', request.remote_addr, request.url, events_id), 200
 
-        if not check_reserve_time() and data['stu_id'] != '410885045':
+        if not check_reserve_time():
             return error_403('預約尚未開始 / Not a valid time ({})'.format(get_nowtime_taipei_time()), '', request.remote_addr, request.url, events_id), 200
 
         # Check this account wheater exist in database
