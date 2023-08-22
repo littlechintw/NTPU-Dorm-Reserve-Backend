@@ -4,12 +4,15 @@
 from func import *
 from func_admin import *
 import sqlite3
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, Blueprint
 from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 CORS(app)
+
+# 建立 API Blueprint
+api = Blueprint('api', __name__)
 
 # To view this app is already run
 @app.route('/monitor', methods=['GET'])
@@ -1168,6 +1171,9 @@ def admin_access_csv(random, sessionCode):
     except Exception as e:
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
+
+# 在主應用中註冊 Blueprint，並指定 url_prefix 為 '/api'
+app.register_blueprint(api, url_prefix='/api')
 
 if __name__ == '__main__':
     init_sqlite()
