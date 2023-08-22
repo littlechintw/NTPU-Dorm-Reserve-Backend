@@ -123,6 +123,23 @@ def login():
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
+@api.route('/reserveTime', methods=['GET'])
+def reserveTime():
+    try:
+        events_id = create_id(5)
+        write_log(request.remote_addr, request.url, events_id, "", "reserveTime")
+        reserveNow = check_reserve_time()
+        RESERVE_START = get_config('RESERVE_START')
+        RESERVE_END = get_config('RESERVE_END')
+        return ok_200({
+            'reserve': reserveNow,
+            'time': RESERVE_START[:-3] + ' ~ ' + RESERVE_END[:-3],
+        }, '', request.remote_addr, request.url, events_id), 200
+    except Exception as e:
+        print(e)
+        error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
+
+
 # To test whether this token is valid
 @api.route('/verify', methods=['POST'])
 def verify():
