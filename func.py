@@ -591,7 +591,15 @@ def admin_take_user_data(id):
             'check_2': 'None'
         }
     else:
-        health_detail = json.loads(str(record[7]).replace("'", '"').replace("False", 'false').replace("True", 'true'))
+
+        try:
+            health_detail = json.loads(str(record[7]).replace("'", '"').replace("False", 'false').replace("True", 'true'))
+        except:
+            health_detail = {
+            'phone': 'Err',
+            'check_1': 'Err',
+            'check_2': 'Err'
+        }
     # print(type(health_detail))
 
     user_data = {
