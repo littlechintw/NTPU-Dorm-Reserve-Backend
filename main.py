@@ -1137,6 +1137,11 @@ def api_reserve_and_checkin_status():
                     i['checkin'] = 0
             else:
                 i['checkin'] = 0
+        if 'other' in checkIn['sun']:
+            reserve['sun'].append({
+                'event_name': '其他',
+                'checkin': checkIn['sun']['other']
+            })
 
         for i in reserve['moon']:
             if 'moon' in checkIn:
@@ -1146,6 +1151,11 @@ def api_reserve_and_checkin_status():
                     i['checkin'] = 0
             else:
                 i['checkin'] = 0
+        if 'other' in checkIn['moon']:
+            reserve['moon'].append({
+                'event_name': '其他',
+                'checkin': checkIn['moon']['other']
+            })
 
         for i in reserve['star']:
             if 'star' in checkIn:
@@ -1155,6 +1165,11 @@ def api_reserve_and_checkin_status():
                     i['checkin'] = 0
             else:
                 i['checkin'] = 0
+        if 'other' in checkIn['star']:
+            reserve['star'].append({
+                'event_name': '其他',
+                'checkin': checkIn['star']['other']
+            })
 
         for i in reserve['morn']:
             if 'morn' in checkIn:
@@ -1164,6 +1179,11 @@ def api_reserve_and_checkin_status():
                     i['checkin'] = 0
             else:
                 i['checkin'] = 0
+        if 'other' in checkIn['morn']:
+            reserve['morn'].append({
+                'event_name': '其他',
+                'checkin': checkIn['morn']['other']
+            })
         
         return ok_200(reserve, '', request.remote_addr, request.url, event_id), 200
     except Exception as e:
