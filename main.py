@@ -1040,6 +1040,43 @@ def admin_upload_all_member():
     #     print(e)
     #     return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
+@api.route('/admin/delete_all_data', methods=['GET'])
+def admin_delete_all_data():
+    try:
+        events_id = create_id(5)
+
+        try:
+            logs = {
+                'url': '/admin/delete_all_data'
+            }
+            write_log(request.remote_addr, request.url, events_id, str(logs), "")
+        except:
+            return error_403('No given data', '', request.remote_addr, request.url, events_id), 403
+
+        # Take header and verify it
+        token = request.headers.get('Authorization')
+        if not token:
+            return error_403('No given token', '', request.remote_addr, request.url, events_id), 403
+        if token[:7] != 'Bearer ':
+            return error_403('No given token', '', request.remote_addr, request.url, events_id), 403
+
+        token = token[7:]
+        if not verify_jwt_one_day(token, request.remote_addr):
+            return error_403('Token is invalid', '', request.remote_addr, request.url, events_id), 403
+        
+        user = get_user_id_from_token(token)
+        write_log(request.remote_addr, request.url, events_id, str(user), "")
+        user_rule = get_user_dorm(user)
+
+        if user_rule != 'admin':
+            return error_403('You are not admin', '', request.remote_addr, request.url, events_id), 200
+
+        res = admin_delete_all_data()
+
+        return ok_200(res, '', request.remote_addr, request.url, events_id), 200
+    except Exception as e:
+        print(e)
+        return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
 
 @api.route('/api/reserve_status', methods=['GET'])
 def api_reserve_status():
