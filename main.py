@@ -1142,6 +1142,16 @@ def api_reserve_and_checkin_status():
                 'event_name': '其他',
                 'checkin': checkIn['sun']['other']
             })
+        totalReserve = 0
+        totalCheckin = 0
+        for i in reserve['sun']:
+            totalReserve += i['reserve']
+            totalCheckin += i['checkin']
+        reserve['sun'].append({
+            'event_name': '總計',
+            'haveReserve': totalReserve,
+            'checkin': totalCheckin
+        })
 
         for i in reserve['moon']:
             if 'moon' in checkIn:
@@ -1156,6 +1166,16 @@ def api_reserve_and_checkin_status():
                 'event_name': '其他',
                 'checkin': checkIn['moon']['other']
             })
+        totalReserve = 0
+        totalCheckin = 0
+        for i in reserve['moon']:
+            totalReserve += i['reserve']
+            totalCheckin += i['checkin']
+        reserve['moon'].append({
+            'event_name': '總計',
+            'haveReserve': totalReserve,
+            'checkin': totalCheckin
+        })
 
         for i in reserve['star']:
             if 'star' in checkIn:
@@ -1170,6 +1190,16 @@ def api_reserve_and_checkin_status():
                 'event_name': '其他',
                 'checkin': checkIn['star']['other']
             })
+        totalReserve = 0
+        totalCheckin = 0
+        for i in reserve['star']:
+            totalReserve += i['reserve']
+            totalCheckin += i['checkin']
+        reserve['star'].append({
+            'event_name': '總計',
+            'haveReserve': totalReserve,
+            'checkin': totalCheckin
+        })
 
         for i in reserve['morn']:
             if 'morn' in checkIn:
@@ -1184,6 +1214,16 @@ def api_reserve_and_checkin_status():
                 'event_name': '其他',
                 'checkin': checkIn['morn']['other']
             })
+        totalReserve = 0
+        totalCheckin = 0
+        for i in reserve['morn']:
+            totalReserve += i['reserve']
+            totalCheckin += i['checkin']
+        reserve['morn'].append({
+            'event_name': '總計',
+            'haveReserve': totalReserve,
+            'checkin': totalCheckin
+        })
         
         return ok_200(reserve, '', request.remote_addr, request.url, event_id), 200
     except Exception as e:
