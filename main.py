@@ -1145,7 +1145,8 @@ def api_reserve_and_checkin_status():
         totalReserve = 0
         totalCheckin = 0
         for i in reserve['sun']:
-            totalReserve += i['reserve']
+            if 'reserve' in i:
+                totalReserve += i['reserve']
             totalCheckin += i['checkin']
         reserve['sun'].append({
             'event_name': '總計',
@@ -1169,7 +1170,8 @@ def api_reserve_and_checkin_status():
         totalReserve = 0
         totalCheckin = 0
         for i in reserve['moon']:
-            totalReserve += i['reserve']
+            if 'reserve' in i:
+                totalReserve += i['reserve']
             totalCheckin += i['checkin']
         reserve['moon'].append({
             'event_name': '總計',
@@ -1193,7 +1195,8 @@ def api_reserve_and_checkin_status():
         totalReserve = 0
         totalCheckin = 0
         for i in reserve['star']:
-            totalReserve += i['reserve']
+            if 'reserve' in i:
+                totalReserve += i['reserve']
             totalCheckin += i['checkin']
         reserve['star'].append({
             'event_name': '總計',
@@ -1217,7 +1220,8 @@ def api_reserve_and_checkin_status():
         totalReserve = 0
         totalCheckin = 0
         for i in reserve['morn']:
-            totalReserve += i['reserve']
+            if 'reserve' in i:
+                totalReserve += i['reserve']
             totalCheckin += i['checkin']
         reserve['morn'].append({
             'event_name': '總計',
