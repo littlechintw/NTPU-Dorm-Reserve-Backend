@@ -4,12 +4,51 @@
 from func import *
 from func_admin import *
 import sqlite3
-from flask import Flask, request, send_file, Blueprint
+from flask import Flask, request, send_file, Blueprint, session, abort, redirect, url_for
 from flask_cors import CORS
+
+# Google Login
+import json
+import os
+import pathlib
+from google.oauth2 import id_token
+from google_auth_oauthlib.flow import Flow
+from pip._vendor import cachecontrol
+import google.auth.transport.requests
+# Google Login
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 CORS(app)
+
+# Google Login
+redirect_uri = "https://ntpudorm.littlechin.tw/api/google/callback"
+# Get the json from client_secret.json
+client_secret_json = {}
+with open('client_secret.json') as f:
+    client_secret_json = json.load(f)
+
+app.config['SECRET_KEY'] = client_secret_json['web']['client_secret']
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+GOOGLE_CLIENT_ID = client_secret_json['web']['client_id']
+client_secrets_file = os.path.join(pathlib.Path(__file__).parent, 'client_secret.json')
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file=client_secrets_file,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    redirect_uri="http://localhost:5001/callback"
+)
+
+def google_login_required(function):
+    def wrapper(*args, **kwargs):
+        if "google_id" not in session:
+            return redirect(url_for('login'))
+        else:
+            return function()
+
+    return wrapper
+# Google Login
 
 # 建立 API Blueprint
 api = Blueprint('api', __name__)
@@ -119,6 +158,97 @@ def login():
         return ok_200('OK', 'Bearer ' + token, request.remote_addr, request.url, events_id), 200
 
         # curl -X POST -H "Content-Type: application/json" -d '{"stu_id": "A1234567", "pwd": "1234567"}' http://localhost:5000/login
+    except Exception as e:
+        print(e)
+        return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
+
+@api.route('/google/login')
+def google_login():
+    authorization_url, state = flow.authorization_url()
+    session['state'] = state
+    return redirect(authorization_url)
+
+@app.route('/google/callback')
+def callback():
+    flow.fetch_token(authorization_response=request.url)
+
+    if not session['state'] == request.args['state']:
+        abort(500)
+
+    credentials = flow.credentials
+    request_session = requests.session()
+    cached_session = cachecontrol.CacheControl(request_session)
+    token_request = google.auth.transport.requests.Request(session=cached_session)
+
+    id_info = id_token.verify_oauth2_token(
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID
+    )
+    
+    session['google_id'] = id_info.get('sub')
+    session['name'] = id_info.get('name')
+    print(id_info)
+    hd = id_info['hd']
+    email = id_info['email']
+    email_verified = id_info['email_verified']
+    
+    try:
+        events_id = create_id(5)
+        write_log(request.remote_addr, request.url, events_id, "/google/login")
+
+        if not check_reserve_time():
+            return error_403('非預約時間 / Not a valid time ({})'.format(get_nowtime_taipei_time()), '', request.remote_addr, request.url, events_id), 200
+        
+        if hd != 'gm.ntpu.edu.tw':
+            return redirect('/login?err=請使用學校信箱登入 / Please use school email to login')
+        if not email_verified:
+            return redirect('/login?err=請先驗證信箱 / Please verify your email')
+        if not check_is_num(email[1:10]):
+            return redirect('/login?err=請使用正確帳號登入 / Please use correct account to login')
+        
+        stu_id = email[1:10]
+
+        # Check this account wheater exist in database
+        user_dorm = get_user_dorm(stu_id)
+        if user_dorm == 'no':
+            return redirect('/login?err=這個帳號不在使用範圍內 / This account is not in the range of use')
+
+        # Check this user whether in accouts table
+        conn = sqlite3.connect('main.db')
+        c = conn.cursor()
+        c.execute('''
+                    SELECT * FROM accounts WHERE id = ?
+                ''', (stu_id,))
+        record = c.fetchone()
+        conn.close()
+
+        token = generate_jwt(stu_id, str(request.remote_addr))
+
+        # If user not in account table, add this user to account table
+        if not record:
+            conn = sqlite3.connect('main.db')
+            c = conn.cursor()
+            c.execute('''
+                        INSERT INTO accounts (id, passwd, created, status, session, session_time) VALUES (?, ?, ?, ?, ?, ?)
+                    ''', (stu_id, 'pwd', get_nowtime_taipei_time(), 'normal', token, get_nowtime_taipei_time()))
+            conn.commit()
+            conn.close()
+        
+        # If user in account table, verify password. If it's correct, update this user's session, session_time. Or, goto check from stu_sys, and update this user's password, session, session_time.
+        else:
+            conn = sqlite3.connect('main.db')
+            c = conn.cursor()
+            c.execute('''
+                        UPDATE accounts SET session = ?, session_time = ? WHERE id = ?
+                    ''', (token, get_nowtime_taipei_time(), stu_id))
+            conn.commit()
+            conn.close()
+
+            
+        return redirect('/login?token=' + token)
+
+    
     except Exception as e:
         print(e)
         return error_500('Server Error', '', request.remote_addr, request.url, events_id), 500
