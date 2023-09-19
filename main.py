@@ -4,7 +4,7 @@
 from func import *
 from func_admin import *
 import sqlite3
-from flask import Flask, request, send_file, Blueprint, session, abort, redirect, url_for
+from flask import Flask, request, send_file, Blueprint, session, abort, redirect, url_for, make_response
 from flask_cors import CORS
 
 # Google Login
@@ -245,8 +245,9 @@ def google_callback():
             conn.commit()
             conn.close()
 
-            
-        return redirect('/login?token=' + token)
+        response = make_response(redirect('/reserve'))
+        response.set_cookie('token', 'Bearer ' + token)
+        return response
 
     
     except Exception as e:
