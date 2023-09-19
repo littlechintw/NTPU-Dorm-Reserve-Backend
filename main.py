@@ -22,7 +22,7 @@ app.config['JSON_AS_ASCII'] = False
 CORS(app)
 
 # Google Login
-redirect_uri = "https://ntpudorm.littlechin.tw/api/google/callback"
+google_settings_redirect_uri = "https://ntpudorm.littlechin.tw/api/google/callback"
 # Get the json from client_secret.json
 client_secret_json = {}
 with open('client_secret.json') as f:
@@ -37,7 +37,7 @@ client_secrets_file = os.path.join(pathlib.Path(__file__).parent, 'client_secret
 flow = Flow.from_client_secrets_file(
     client_secrets_file=client_secrets_file,
     scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
-    redirect_uri="http://localhost:5001/callback"
+    redirect_uri=google_settings_redirect_uri
 )
 
 def google_login_required(function):
