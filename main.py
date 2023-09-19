@@ -195,7 +195,7 @@ def google_callback():
     
     try:
         events_id = create_id(5)
-        write_log(request.remote_addr, request.url, events_id, "/google/login")
+        write_log(request.remote_addr, request.url, events_id, "/google/login", "")
 
         if not check_reserve_time():
             return error_403('非預約時間 / Not a valid time ({})'.format(get_nowtime_taipei_time()), '', request.remote_addr, request.url, events_id), 200
