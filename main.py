@@ -164,7 +164,7 @@ def login():
 
 @api.route('/google/login')
 def google_login():
-    authorization_url, state = flow.authorization_url()
+    authorization_url, state = flow.authorization_url(prompt='select_account')
     session['state'] = state
     return redirect(authorization_url)
 
@@ -183,7 +183,6 @@ def google_callback():
     id_info = id_token.verify_oauth2_token(
         id_token=credentials._id_token,
         request=token_request,
-        prompt='select_account',
         audience=GOOGLE_CLIENT_ID
     )
     
