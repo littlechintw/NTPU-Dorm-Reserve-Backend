@@ -186,7 +186,7 @@ def admin_delete_all_data():
     # Delete all data in checkin table
     conn = sqlite3.connect('main.db')
     c = conn.cursor()
-    c.execute("DELETE FROM checkin")
+    c.execute("DELETE FROM checkIn")
     conn.commit()
     conn.close()
 
