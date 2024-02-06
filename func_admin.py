@@ -182,7 +182,7 @@ def upload_all_member(jsonData):
             'errMsg': errMsg
         }
     
-def admin_delete_all_data():
+def admin_delete_all_checkin_data():
     # Delete all data in checkin table
     conn = sqlite3.connect('main.db')
     c = conn.cursor()
