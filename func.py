@@ -786,7 +786,8 @@ def admin_get_reserve_status():
             tmp['c'] = 'n'
         if tmp['vs'] != None and tmp['vs'] == None:
             tmp['vi'] = 'y'
-        res.append(tmp)
+        if tmp['de'] != None:
+            res.append(tmp)
     return res
 
 def admin_delete_reserve(id):
