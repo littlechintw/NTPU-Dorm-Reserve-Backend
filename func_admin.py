@@ -187,9 +187,16 @@ def admin_delete_all_checkin_data():
     conn = sqlite3.connect('main.db')
     c = conn.cursor()
     c.execute("DELETE FROM checkIn")
+    c.execute("SELECT COUNT(*) FROM checkIn")
+    checkIn_count = c.fetchone()[0]
+    c.execute("DELETE FROM reserve")
+    c.execute("SELECT COUNT(*) FROM reserve")
+    reserve_count = c.fetchone()[0]
     conn.commit()
     conn.close()
 
     return {
-        'status': 'success'
+        'status': 'success',
+        'reserve_count': reserve_count,
+        'checkIn_count': checkIn_count
     }
