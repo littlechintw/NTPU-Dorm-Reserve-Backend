@@ -257,7 +257,7 @@ def google_callback():
 def reserveTime():
     try:
         events_id = create_id(5)
-        write_log(request.remote_addr, request.url, events_id, "", "reserveTime")
+        # write_log(request.remote_addr, request.url, events_id, "", "reserveTime")
         reserveNow = check_reserve_time()
         RESERVE_START = get_config('RESERVE_START')
         RESERVE_END = get_config('RESERVE_END')
