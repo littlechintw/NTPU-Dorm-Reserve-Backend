@@ -1201,7 +1201,7 @@ def admin_delete_all_data():
         if user_rule != 'admin':
             return error_403('You are not admin', '', request.remote_addr, request.url, events_id), 200
 
-        res = admin_delete_all_data()
+        res = admin_delete_all_checkin_data()
 
         return ok_200(res, '', request.remote_addr, request.url, events_id), 200
     except Exception as e:
