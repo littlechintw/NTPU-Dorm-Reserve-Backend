@@ -58,7 +58,7 @@ api = Blueprint('api', __name__)
 def check_active():
     try:
         events_id = create_id(5)
-        write_log(request.remote_addr, request.url, events_id, "", "Alive check!")
+        # write_log(request.remote_addr, request.url, events_id, "", "Alive check!")
         print('I think someone ask me whether I am alive, and hi, I still here!')
         return 'great!', 200
     except Exception as e:
